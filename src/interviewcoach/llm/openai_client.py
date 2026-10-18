@@ -22,7 +22,7 @@ class OpenAICompatClient(LLMClient):
             from openai import OpenAI
 
             client = OpenAI(api_key=api_key or "not-needed", base_url=base_url, timeout=timeout)
-        self._client = client
+        self._client: Any = client
         self.model = model
         self.temperature = temperature
 

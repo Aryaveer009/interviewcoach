@@ -27,7 +27,7 @@ from .models import (
 )
 from .prompts import FOLLOWUP_SYSTEM, QUESTION_SYSTEM, followup_user, question_user
 from .scoring import RubricScorer
-from .skills import count_mentions
+from .skills import count_mentions, extract_skills
 
 STRETCH_AT = 4.5  # overall >= this: the answer was strong, push harder
 PROBE_BELOW = 4.0  # overall < this: probe the weakest dimension
@@ -74,7 +74,7 @@ def build_plan(
                         if i.importance == "required" and i.status == GapStatus.MISSING])
     missing_pref = rank([i.skill for i in gap.items
                          if i.importance == "preferred" and i.status == GapStatus.MISSING])
-    probe = (missing_req or missing_pref)[:1]
+    probe = (missing_req or missing_pref)[:1] if n_technical > 0 else []
     tech_topics = claimed[: max(0, n_technical - len(probe))]
     if len(tech_topics) + len(probe) < n_technical:  # not enough claimed: add other skills
         extras = [s for s in rank(list(wanted)) if s not in tech_topics and s not in probe]
@@ -92,7 +92,8 @@ def build_plan(
         bullet = max(p.bullets, key=lambda b: (len(re.findall(r"\d", b)), len(b)), default="")
         project_slots.append(
             Slot(Category.PROJECT, p.name, source="resume",
-                 context={"project": p.name, "bullet": bullet, "skills": p.skills})
+                 context={"project": p.name, "bullet": bullet,
+                          "skills": _bullet_first(bullet, p.skills)})
         )
 
     # --- behavioural
@@ -102,6 +103,12 @@ def build_plan(
     behavioral = [Slot(Category.BEHAVIORAL, t, source="STAR") for t in order[:n_behavioral]]
 
     return project_slots + technical + behavioral
+
+
+def _bullet_first(bullet: str, skills: list[str]) -> list[str]:
+    """Order project skills so those named in the chosen bullet come first."""
+    in_bullet = extract_skills(bullet)
+    return in_bullet + [s for s in skills if s not in in_bullet]
 
 
 # --------------------------------------------------------------------------- questions

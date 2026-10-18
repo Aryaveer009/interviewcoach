@@ -136,11 +136,12 @@ def _docx(path: Path) -> None:
 
 
 def _pdf(path: Path) -> None:
+    from xml.sax.saxutils import escape
+
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
     from reportlab.lib.units import mm
     from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
-    from xml.sax.saxutils import escape
 
     styles = getSampleStyleSheet()
     h1 = ParagraphStyle("h1", parent=styles["Title"], fontSize=20, alignment=0, spaceAfter=2)

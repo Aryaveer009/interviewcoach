@@ -1,5 +1,5 @@
 from .metrics import SpeechMetrics, analyze_speech, count_fillers, pace_feedback, wav_duration
-from .transcribe import Transcript, Transcriber, get_transcriber
+from .transcribe import Transcriber, Transcript, get_transcriber
 
 __all__ = [
     "SpeechMetrics", "Transcript", "Transcriber", "analyze_speech", "count_fillers",

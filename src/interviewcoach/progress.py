@@ -63,9 +63,11 @@ def weakest_topics(df: pd.DataFrame, limit: int = 3) -> list[Suggestion]:
     if df.empty:
         return []
     out: list[Suggestion] = []
-    grouped = df.groupby(["topic", "category"])
-    ranked = grouped["overall"].mean().sort_values()
-    for (topic, category), avg in ranked.head(limit).items():
+    ranked = (
+        df.groupby(["topic", "category"])["overall"].mean().reset_index().sort_values("overall")
+    )
+    top = ranked.head(limit)
+    for topic, category, avg in zip(top["topic"], top["category"], top["overall"], strict=True):
         sub = df[(df["topic"] == topic) & (df["category"] == category)]
         dim = str(sub[list(DIMENSIONS)].mean().idxmin())
         out.append(Suggestion(str(topic), str(category), round(float(avg), 2), dim,

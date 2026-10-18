@@ -58,6 +58,11 @@ src = ["src", "tests", "scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501", "UP042"]  # long prose strings are fine; keep (str, Enum) for py3.11 JSON
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+"scripts/*" = ["E501", "E402"]
 
 [tool.mypy]
 python_version = "3.11"
