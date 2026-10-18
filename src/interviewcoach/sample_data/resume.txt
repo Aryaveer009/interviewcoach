@@ -1,0 +1,30 @@
+Aryaveer Mankotia
+aryaveer@example.com | github.com/Aryaveer009 | India
+
+SKILLS
+Languages: Python, SQL, Bash, JavaScript
+AI / ML: LLMs, RAG, Prompt Engineering, Embeddings, LangChain, Hugging Face
+Security: Cybersecurity, OWASP, Prompt Injection, Threat Modeling, Burp Suite, Nmap
+Tools: Git, Docker, Linux, pytest, FastAPI
+
+PROJECTS
+PromptShield | Python, Typer, GitHub Actions
+- Built an open-source CLI that runs 48 attacks across 7 categories against an LLM chatbot or RAG app and reports pass/fail mapped to the OWASP Top 10 for LLM Applications.
+- Designed canary-secret detection that catches system-prompt leaks even when the secret is reversed, spaced out or base64-encoded.
+- Added a mandatory ownership flag so the tool refuses to run against targets the user has not explicitly claimed.
+- Set up GitHub Actions CI for linting, type-checking and tests.
+ModelRouter | Python, FastAPI, Docker
+- Built an OpenAI-compatible proxy that routes easy queries to a cheap model and hard queries to a strong model to cut LLM costs.
+- Implemented a query-difficulty classifier and per-request cost tracking behind a REST API.
+- Containerized the service with Docker and added a Streamlit dashboard for spend and routing decisions.
+Campus Notes Q&A (sample project) | Python, RAG, SQLite
+- Built a retrieval-augmented generation assistant that answers questions over lecture notes using embeddings and a FAISS vector index.
+- Chunked documents and stored metadata in SQLite so answers could cite their source pages.
+
+EXPERIENCE
+Cybersecurity Intern | Security Operations (sample entry)
+- Triaged security alerts and documented findings for the team.
+- Ran vulnerability scans with Nmap and summarized remediation steps for engineers.
+
+EDUCATION
+B.Tech, Computer Science

@@ -1,0 +1,27 @@
+Junior AI Security Engineer
+Acme Labs (fictional company, synthetic job description)
+
+About the role
+You will help us ship LLM-powered features safely. You will build tooling that tests our
+chatbots and retrieval pipelines for security weaknesses and work with engineers to fix them.
+
+Responsibilities
+- Build and maintain automated security tests for LLM and RAG applications
+- Write Python services and internal tools exposed through REST APIs
+- Analyse data in SQL to find patterns in failed attacks and incidents
+- Document threats and help the team with threat modeling for new features
+
+Requirements
+- Strong Python
+- Solid SQL
+- Hands-on experience with LLMs and retrieval-augmented generation (RAG)
+- Understanding of OWASP and prompt injection attacks
+- Experience building REST APIs
+- Familiarity with Docker and Kubernetes
+- Git and CI/CD workflows
+
+Nice to have
+- PostgreSQL
+- AWS
+- Terraform
+- Penetration testing experience
