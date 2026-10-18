@@ -1,0 +1,50 @@
+{
+  "description": "Held-out split: written AFTER the offline heuristic scorer was frozen (see git history) and run exactly once; nothing in the scorer was changed afterwards. Same author as the scorer, so it is held-out from tuning, not independent.",
+  "split": "heldout",
+  "items": [
+    {
+      "id": "llm-hallucination-technical",
+      "slot": {"category": "technical", "topic": "LLMs"},
+      "answers": {
+        "good": "A language model predicts the most likely next token, not a verified fact, so when it lacks knowledge it still produces fluent text that can be wrong. In production I'd ground answers in retrieved sources and instruct the model to say it doesn't know when the context lacks the answer. I'd also constrain the output format, and measure hallucination with a test set of questions with known answers, plus human review of a sample.",
+        "mediocre": "Hallucination happens because AI models are not perfect and sometimes they just make things up that sound right. It can be a real problem when people trust what the model says without checking it, especially in important situations. There are different ways to deal with it, like making the model better or giving it better instructions, and I think researchers are working on it all the time. Basically you just have to be careful when you use these tools and not assume everything is correct.",
+        "bad": "Hallucinations happen when the GPU overheats. The fix is to restart the model server every hour."
+      }
+    },
+    {
+      "id": "rest-api-technical",
+      "slot": {"category": "technical", "topic": "REST APIs"},
+      "answers": {
+        "good": "I'd model tasks as a resource: GET /tasks to list with pagination, POST /tasks to create returning 201, GET /tasks/{id}, PUT or PATCH to update, and DELETE returning 204. Invalid input returns 400 with a JSON error body that names the bad field, and an unknown id returns 404. I'd put the version in the path, like /v1/tasks, so the contract can change later, and protect the endpoints with token-based authentication.",
+        "mediocre": "You would have endpoints for getting, adding and removing to-dos, and use the right HTTP methods. If something goes wrong it should return an error.",
+        "bad": "I'd make one endpoint called doEverything that takes a parameter saying what to do, and always return 200 even when it fails so the client doesn't crash."
+      }
+    },
+    {
+      "id": "failure-behavioral",
+      "slot": {"category": "behavioral", "topic": "failure"},
+      "answers": {
+        "good": "Last semester I planned to build a browser extension for my club as a solo side project, and after three weeks I had missed my first milestone because I underestimated the browser API work. My goal was still to ship something useful by the club's event. I decided to cut scope to a single feature, asked a senior friend to review my approach, and set weekly check-ins for myself. The result was a smaller extension that shipped two days before the event. I learned to estimate with a buffer and to cut scope early rather than late.",
+        "mediocre": "I once worked on a project that didn't go as planned. We had a lot of things to do and not enough time, so some parts weren't finished properly. It was frustrating at the time but we managed to submit something in the end. Looking back I learned a lot from the experience and it made me a better team member.",
+        "bad": "Nothing has ever gone wrong in my projects. I always plan everything perfectly."
+      }
+    },
+    {
+      "id": "modelrouter-project",
+      "slot": {
+        "category": "project",
+        "topic": "ModelRouter",
+        "context": {
+          "project": "ModelRouter",
+          "bullet": "Built an OpenAI-compatible proxy that routes easy queries to a cheap model and hard queries to a strong model to cut LLM costs.",
+          "skills": ["OpenAI API", "LLMs", "FastAPI", "REST APIs"]
+        }
+      },
+      "answers": {
+        "good": "The proxy exposes the same chat-completions API as OpenAI, so apps only change the base URL. I chose a simple difficulty classifier because it was cheap and I could inspect its mistakes: easy prompts go to the small model and hard ones to the strong model. The hardest problem was that misrouting a hard question hurts quality, so I added an uncertainty check that escalates to the strong model when the classifier isn't confident. I verified it by running a benchmark of labelled prompts and comparing cost and answer quality against always using the strong model. I'd improve it with more training data.",
+        "mediocre": "ModelRouter is a project I made that sits between an app and the language models and decides which model to use for each question. The idea is that it saves money because the cheap model can handle simple questions. It took quite a while to build and there were a lot of parts to it, such as the server and the way it keeps track of costs. Overall I'm quite happy with how it came out and I think it could be useful for other people.",
+        "bad": "I don't remember much about it, a friend helped me with most of the code."
+      }
+    }
+  ]
+}
