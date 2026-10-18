@@ -1,0 +1,77 @@
+{
+  "description": "Development split: written first, used while building and tuning the offline heuristic scorer. Each item has a good, a mediocre and a bad answer written by the repo author, plus (for some items) an adversarial keyword-stuffed answer.",
+  "split": "dev",
+  "items": [
+    {
+      "id": "rag-technical",
+      "slot": {"category": "technical", "topic": "RAG"},
+      "answers": {
+        "good": "I'd start by extracting text from each PDF and splitting it into chunks of a few hundred tokens with some overlap, so a fact isn't cut in half. Each chunk gets an embedding and goes into a vector index like FAISS, with metadata for the source page. At question time I embed the query, retrieve the top-k chunks, and put them in the prompt as context with an instruction to answer only from them. To check retrieval, I'd write about fifty labelled questions with the correct source page and measure recall@k, then tune chunk size and k against that.",
+        "mediocre": "RAG means you give the model extra documents so it answers better. You split the PDFs up, turn them into embeddings and store them, then when someone asks something you find the closest ones and pass them to the model with the question. It's useful because models don't know your own data. You'd want to check it works well by trying some questions and seeing if the answers look right.",
+        "bad": "You train the model on the PDFs by retraining it from scratch every night. Retrieval checking isn't needed because the model already knows the answers."
+      },
+      "adversarial": {
+        "keyword_stuffed": "chunk split segment embedding vector faiss index top-k similar context prompt recall precision evaluate metric labelled test set rag retrieval"
+      }
+    },
+    {
+      "id": "sql-technical",
+      "slot": {"category": "technical", "topic": "SQL"},
+      "answers": {
+        "good": "I'd join orders to customers on customer_id, filter orders to last month with a WHERE on order_date between the first and last day, then GROUP BY customer and SUM the order total. ORDER BY that sum descending with LIMIT 5. For speed I'd index order_date and customer_id, and check with EXPLAIN that the planner uses the index instead of scanning the whole orders table.",
+        "mediocre": "So basically you would need to look at the orders table and the customers table and put them together somehow, and then work out who spent the most money. I think you can use a group by to add things up for each customer and then sort them so the biggest ones come first and only keep five. Making it fast is probably about the database being set up well and maybe using indexes or something like that, I'm not totally sure about the details.",
+        "bad": "You would delete the customers table and recreate it with the top customers inserted by hand. SQL queries can't really be made faster, it just depends on how good your computer is."
+      },
+      "adversarial": {
+        "keyword_stuffed": "join group by sum where order by limit between index explain query plan execution plan select orders customers"
+      }
+    },
+    {
+      "id": "docker-technical",
+      "slot": {"category": "technical", "topic": "Docker"},
+      "answers": {
+        "good": "An image is a read-only template made of layers; a container is a running instance of an image with a thin writable layer on top. To keep images small I use a slim base image and multi-stage builds so compilers and build tools never reach the final image. For security I run as a non-root user, never bake secrets into layers, pin base image versions, and scan the image with something like Trivy in CI for known vulnerabilities.",
+        "mediocre": "An image is like a template and a container is a running copy of it. To make it small you can use a smaller base image, and for security you should be careful with what you put inside.",
+        "bad": "Docker is a virtual machine that boots a full operating system for every image. Images get smaller if you compress them with zip, and security is handled automatically by Docker so there is nothing to do."
+      }
+    },
+    {
+      "id": "conflict-behavioral",
+      "slot": {"category": "behavioral", "topic": "conflict"},
+      "answers": {
+        "good": "In my second-year group project we were building a web app, and a teammate wanted MongoDB while I thought a relational database fit our data better. My task was to help the team choose a database before the next sprint so we weren't blocked. I wrote a short comparison of how our data was structured, built a small prototype of the two core queries in both, and shared the results instead of arguing opinions. The relational version was simpler for our joins, so we went with SQLite, and my teammate helped write the schema. As a result we finished the sprint on time. I learned to settle technical disagreements with a quick experiment rather than a debate.",
+        "mediocre": "There was a time in a group project where my teammate and I didn't agree about how to build something. I thought we should do it one way and they wanted another. We talked about it for a while and in the end we kind of just went with a mix of both ideas. It was a bit stressful but we got through it and I think we both learned that communication is important in a team.",
+        "bad": "My teammates usually agree with me because I'm normally right about technical decisions, so I can't think of a time. Honestly I prefer working alone."
+      }
+    },
+    {
+      "id": "promptshield-project",
+      "slot": {
+        "category": "project",
+        "topic": "PromptShield",
+        "context": {
+          "project": "PromptShield",
+          "bullet": "Built an open-source CLI that runs 48 attacks across 7 categories against an LLM chatbot or RAG app and reports pass/fail mapped to the OWASP Top 10 for LLM Applications.",
+          "skills": ["LLMs", "RAG", "OWASP", "Python"]
+        }
+      },
+      "answers": {
+        "good": "The core design is a library of attacks defined in YAML, each paired with a detector, so adding an attack doesn't need new code. I chose that because I wanted the 48 attacks to be easy to review and extend. The hardest problem was detecting leaks reliably: a plain string match missed a secret that came back reversed or base64-encoded, so I planted a canary token in the system prompt and normalised responses before checking. I verified it by running the tool against a deliberately vulnerable demo bot and a hardened one and checking the scores differed, plus unit tests for each detector. Next I'd add more indirect-injection cases.",
+        "mediocre": "It's a command line tool that tests chatbots with different attacks and tells you if it passes or fails. The hardest part was probably getting the detection right. I tested it a bit on some chatbots to see if it worked.",
+        "bad": "I don't really remember how it works, I mostly followed a tutorial. There weren't any real problems."
+      }
+    },
+    {
+      "id": "prompt-injection-technical",
+      "slot": {"category": "technical", "topic": "Prompt Injection"},
+      "answers": {
+        "good": "Prompt injection is when untrusted text gets treated as instructions and overrides what the developer told the model. Direct injection is the user typing something like 'ignore previous instructions'. Indirect injection is hidden in content the model reads, such as a retrieved web page, a document or an email, so the user may never see it. Defences have to be layered: give the model least privilege so a hijack can't do much, keep untrusted data clearly separated from instructions, filter and validate outputs, require confirmation for sensitive actions, and red-team the app regularly with attack suites.",
+        "mediocre": "Prompt injection is when someone tricks the chatbot into doing something it shouldn't by writing a clever message. Direct is when the user does it and indirect is when it comes from somewhere else. To stop it you can try to tell the model not to listen to bad instructions in the prompt, and maybe add some filters, though I'm not sure how well they work.",
+        "bad": "Prompt injection is a database attack where hackers put SQL code into web forms. Direct and indirect are basically the same thing, and a firewall fixes it completely."
+      },
+      "adversarial": {
+        "keyword_stuffed": "untrusted override ignore instruction indirect document retrieved web page email least privilege filter sandbox separate allowlist guardrail test red team attack evaluate"
+      }
+    }
+  ]
+}
