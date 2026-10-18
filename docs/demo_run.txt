@@ -1,0 +1,42 @@
+Gap coverage: 78.6%
+  [project               ] PromptShield       overall 2.6
+  [follow-up (depth)     ] PromptShield       overall 1.2
+  [project               ] ModelRouter        overall 1.8
+  [follow-up (correctness)] ModelRouter        overall 1.2
+  [technical             ] REST APIs          overall 1.8
+  [follow-up (depth)     ] REST APIs          overall 1.2
+  [technical             ] LLMs               overall 1.4
+  [follow-up (correctness)] LLMs               overall 1.2
+  [technical             ] AWS                overall 1.8
+  [follow-up (correctness)] AWS                overall 1.2
+  [behavioral            ] learning quickly   overall 2.8
+  [follow-up (depth)     ] learning quickly   overall 1.2
+  [behavioral            ] conflict           overall 2.2
+  [follow-up (depth)     ] conflict           overall 1.2
+session first: {'turns': 14, 'overall': 1.63, 'by_category': {'project': 1.7, 'technical': 1.43, 'behavioral': 1.85}}
+  [project               ] PromptShield       overall 3.6
+  [follow-up (depth)     ] PromptShield       overall 3.0
+  [project               ] ModelRouter        overall 3.6
+  [follow-up (depth)     ] ModelRouter        overall 3.0
+  [technical             ] REST APIs          overall 3.6
+  [follow-up (depth)     ] REST APIs          overall 2.2
+  [technical             ] LLMs               overall 3.4
+  [follow-up (depth)     ] LLMs               overall 2.2
+  [technical             ] AWS                overall 3.4
+  [follow-up (depth)     ] AWS                overall 2.2
+  [behavioral            ] learning quickly   overall 4.2
+  [behavioral            ] conflict           overall 3.0
+  [follow-up (depth)     ] conflict           overall 2.0
+session second: {'turns': 13, 'overall': 3.03, 'by_category': {'project': 3.3, 'technical': 2.83, 'behavioral': 3.07}}
+  [project               ] PromptShield       overall 4.6
+  [follow-up (stretch)   ] PromptShield       overall 3.6
+  [project               ] ModelRouter        overall 4.4
+  [technical             ] REST APIs          overall 3.8
+  [follow-up (structure) ] REST APIs          overall 2.6
+  [technical             ] LLMs               overall 3.8
+  [follow-up (depth)     ] LLMs               overall 2.6
+  [technical             ] AWS                overall 4.2
+  [behavioral            ] learning quickly   overall 4.4
+  [behavioral            ] conflict           overall 4.6
+  [follow-up (stretch)   ] conflict           overall 2.2
+session third: {'turns': 11, 'overall': 3.71, 'by_category': {'project': 4.2, 'technical': 3.4, 'behavioral': 3.73}}
