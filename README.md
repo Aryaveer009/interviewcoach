@@ -237,7 +237,7 @@ tests/            82 tests: parsing, gap, rubric schema, DB, agent, voice, confi
 - **Rule-based parsing** handles conventional single-column resumes (it was checked on the bundled sample in PDF, DOCX and TXT form only). Multi-column or heavily designed layouts will degrade; scanned PDFs are rejected (no OCR).
 - **The skills taxonomy is hand-written** (74 skills); anything outside it is invisible to the gap analysis.
 - **Voice mode:** the metrics (fillers, pace, WAV duration) are unit-tested, and the Whisper API client is tested against a stub. **Real microphone → Whisper/faster-whisper transcription has not been run end to end** by me.
-- **Docker:** a `Dockerfile` and a CI job that builds it and checks the health endpoint are included. I had no Docker on my development machine, so I have not run the image locally.
+- **Docker:** I had no Docker on my development machine, so I never ran the image locally. The CI job builds it and checks the container's health endpoint, and that job passed on the first push, but I have not clicked through the containerised app.
 - Small evaluation set (see above). Treat the table as a sanity check.
 
 ## 🧪 Tests and CI
