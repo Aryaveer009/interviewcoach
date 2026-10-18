@@ -1,0 +1,38 @@
+{
+  "description": "Scripted answers used by `interviewcoach demo`. Written by the repo author to exercise the pipeline end to end: session 'first' is deliberately vague, 'second' is mixed, 'third' is strong. The rising scores demonstrate the dashboard plumbing, not real learning.",
+  "sessions": {
+    "first": {
+      "project:PromptShield": "It's a tool that tests chatbots with attacks and says if they pass. The hardest part was probably the detection, I tested it a bit.",
+      "project:ModelRouter": "It sends questions to a cheap model or an expensive one. It took a while to build and I think it works well.",
+      "technical:REST APIs": "You would have endpoints for getting and adding to-dos and return an error if something goes wrong.",
+      "technical:LLMs": "Models sometimes make things up because they aren't perfect, so you have to be careful with what they say.",
+      "technical:AWS": "I haven't used AWS much. I think you put the app on a server and make sure it's secure somehow.",
+      "behavioral:learning quickly": "I had to learn something new for a project and I just read about it and figured it out. It went fine in the end.",
+      "behavioral:conflict": "My teammate and I disagreed once but we talked about it and sorted it out.",
+      "followup": "I think I would just do it a similar way again, it was basically fine.",
+      "default": "I'm not sure, I think it depends."
+    },
+    "second": {
+      "project:PromptShield": "The design is a library of attacks, each with a detector, because I wanted new attacks to be easy to add. The hardest problem was catching leaks when the secret came back encoded, so I used a canary token. I tested it against a vulnerable demo bot.",
+      "project:ModelRouter": "It exposes an OpenAI-compatible API and routes by a difficulty classifier, because that saves cost. The hardest problem was misrouting hard questions, which I handled by escalating when the classifier was unsure. I checked it with a small benchmark.",
+      "technical:REST APIs": "I'd use GET /tasks to list, POST /tasks to create with a 201, PUT to update and DELETE to remove. Errors return 400 or 404 with a JSON message. I'd also add authentication with a token.",
+      "technical:LLMs": "Models predict likely text rather than facts, so they can hallucinate. You can ground answers with retrieval and tell the model to say it doesn't know. I'd also test with some example questions.",
+      "technical:AWS": "I'd run the API on EC2 or Lambda and keep the database private in a VPC. Access would use IAM roles with least privilege. I haven't done this in production, only read about it.",
+      "behavioral:learning quickly": "In a group project I had to learn FastAPI in a week. My task was to build the backend. I read the docs, built a small prototype and asked a friend to review it. We shipped on time and I learned to prototype early.",
+      "behavioral:conflict": "A teammate and I disagreed about the database in our project. I suggested a quick prototype of both, we compared them, and we picked the simpler one. It worked out.",
+      "followup": "I chose that because it was simpler to maintain, although the trade-off was less flexibility, for example when adding new attack types.",
+      "default": "I'd explain it first, then give an example, because that is clearest."
+    },
+    "third": {
+      "project:PromptShield": "The core design is a library of attacks defined in YAML, each paired with a detector, so adding an attack needs no new code. I chose that because I wanted all 48 attacks to be easy to review and extend. The hardest problem was detecting leaks reliably: a plain string match missed a secret that came back reversed or base64-encoded, so I planted a canary token in the system prompt and normalised responses before checking. I verified it by running the tool against a deliberately vulnerable demo bot and a hardened one and checking the scores differed, plus unit tests for each detector. Next I'd add more indirect-injection cases.",
+      "project:ModelRouter": "The proxy exposes the same chat-completions API as OpenAI, so apps only change the base URL. I chose a simple difficulty classifier because it was cheap and I could inspect its mistakes: easy prompts go to the small model and hard ones to the strong model. The hardest problem was that misrouting a hard question hurts quality, so I added an uncertainty check that escalates to the strong model when the classifier isn't confident. I verified it by running a benchmark of labelled prompts and comparing cost and answer quality against always using the strong model. I'd improve it with more training data.",
+      "technical:REST APIs": "I'd model tasks as a resource: GET /tasks to list with pagination, POST /tasks to create returning 201, GET /tasks/{id}, PUT or PATCH to update, and DELETE returning 204. Invalid input returns 400 with a JSON error body that names the bad field, and an unknown id returns 404. I'd put the version in the path, like /v1/tasks, so the contract can change later, and protect the endpoints with token-based authentication.",
+      "technical:LLMs": "A language model predicts the most likely next token, not a verified fact, so when it lacks knowledge it still produces fluent text that can be wrong. In production I'd ground answers in retrieved sources and instruct the model to say it doesn't know when the context lacks the answer. I'd also constrain the output format, and measure hallucination with a test set of questions with known answers, plus human review of a sample.",
+      "technical:AWS": "I haven't run production workloads on AWS, but here is how I'd approach it. For compute I'd pick Lambda or ECS Fargate for a small API. The database would sit in a private subnet inside a VPC, reachable only through security groups from the API. Access uses IAM roles with least privilege rather than long-lived keys, secrets live in Secrets Manager, and CloudWatch collects logs for monitoring.",
+      "behavioral:learning quickly": "In my second-year group project I had to learn FastAPI within a week because our backend was blocked. My task was to deliver a working API before the demo. I read the official tutorial, built a small prototype of two endpoints, and asked a senior friend to review my approach. As a result we shipped the backend two days before the demo. I learned to build a thin prototype first and ask for review early.",
+      "behavioral:conflict": "In my second-year group project a teammate wanted MongoDB while I thought a relational database fit our data better. My task was to help the team choose before the next sprint. I wrote a short comparison, built a small prototype of the two core queries in both, and shared the results instead of arguing opinions. The relational version was simpler for our joins, so we went with SQLite, and we finished the sprint on time. I learned to settle disagreements with a quick experiment.",
+      "followup": "I chose that approach because it was simpler to test, and the trade-off was flexibility. For example, at 100x the scale I would add monitoring on error rate and latency, since that would tell me quickly if it was failing.",
+      "default": "I would explain the reasoning first, then give an example, because that makes the trade-off clear."
+    }
+  }
+}
